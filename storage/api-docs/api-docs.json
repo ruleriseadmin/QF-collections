@@ -1,0 +1,1783 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Collection Service Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/settings/update-webhook-url": {
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Update webhook url",
+                "description": "This updates the webhook url",
+                "operationId": "updateWebhookUrl",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "webhookUrl": {
+                                        "type": "string",
+                                        "example": "https://www.example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/card-tokenization/initiate": {
+            "post": {
+                "tags": [
+                    "Card Tokenization"
+                ],
+                "summary": "Generating a Payment Link for card tokenization",
+                "description": "The generates the payment link to handle card tokenization",
+                "operationId": "cardTokenizationInitiation",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "customer email",
+                                        "type": "string",
+                                        "example": "test@example.com"
+                                    },
+                                    "callbackUrl": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": "http://test.url.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/transaction/charge-account": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Charging an account",
+                "description": "This charges an account and receive payment via authorization code",
+                "operationId": "chargeAccount",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "customer email",
+                                        "type": "string",
+                                        "example": "test@example.com"
+                                    },
+                                    "amountInKobo": {
+                                        "type": "string",
+                                        "example": "20000"
+                                    },
+                                    "authorizationCode": {
+                                        "type": "string",
+                                        "example": "AUTH_72btv547"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/direct-debit/initiate": {
+            "post": {
+                "tags": [
+                    "Direct Debit"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "directDebitInitiate",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "customer email",
+                                        "type": "string",
+                                        "example": "ravi@demo.com"
+                                    },
+                                    "callbackUrl": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": "http://test.url.com"
+                                    },
+                                    "account": {
+                                        "properties": {
+                                            "number": {
+                                                "type": "string",
+                                                "example": "0128034955"
+                                            },
+                                            "bank_code": {
+                                                "type": "string",
+                                                "example": "058"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "address": {
+                                        "properties": {
+                                            "state": {
+                                                "type": "string",
+                                                "example": "Lagos"
+                                            },
+                                            "city": {
+                                                "type": "string",
+                                                "example": "Akoka"
+                                            },
+                                            "street": {
+                                                "type": "string",
+                                                "example": "17 Beckley Avenue"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/direct-debit/revoked-mandates" : {
+            "get": {
+                "tags": [
+                    "Direct Debit"
+                ],
+                "summary": "Get Revoked Mandates",
+                "description": "Retrieves a list of revoked direct debit mandates.",
+                "operationId": "GetRevokedMandates",
+                "responses": {
+                    "200": {
+                        "description": "List of revoked mandates retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RevokedMandate"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/gsi/profile-customer": {
+            "post": {
+                "tags": [
+                    "GSI: Global Standing Instruction"
+                ],
+                "summary": "Profile Customer",
+                "description": "Profiles a customer and returns a GSI ID for the customer.",
+                "operationId": "GSIProfileCustomer",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "lastName",
+                                    "firstName",
+                                    "address",
+                                    "phoneNumber"
+                                ],
+                                "properties": {
+                                    "identity": {
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "example": "nin"
+                                            },
+                                            "number": {
+                                                "type": "string",
+                                                "example": "72232218030"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "johndoe@gmail.com"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "firstName": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Some Address"
+                                    },
+                                    "phoneNumber": {
+                                        "type": "string",
+                                        "example": "09112345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Request processed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "firstName": {
+                                                    "type": "string",
+                                                    "example": "Doe"
+                                                },
+                                                "lastName": {
+                                                    "type": "string",
+                                                    "example": "John"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "johndoe@gmail.com"
+                                                },
+                                                "phoneNumbers": {
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "gsiId": {
+                                                    "type": "string",
+                                                    "example": "673d9784e215dd6a14e1f71a"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Request processed successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/payment-links/initiate": {
+            "post": {
+                "tags": [
+                    "Payment Link"
+                ],
+                "summary": "Generating a Payment Link",
+                "description": "The generates the payment links",
+                "operationId": "paymentLinksInitiate",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "customer email",
+                                        "type": "string"
+                                    },
+                                    "amountInKobo": {
+                                        "description": "amount in kobo",
+                                        "type": "string",
+                                        "example": "500000"
+                                    },
+                                    "callbackUrl": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": "http://test.url.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/transaction/partial-payment": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Retrieve part of a payment from a customer",
+                "operationId": "partialPayment",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "amountInKobo",
+                                    "authorizationCode"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "customer email",
+                                        "type": "string",
+                                        "example": "test@example.com"
+                                    },
+                                    "amountInKobo": {
+                                        "type": "string",
+                                        "example": "20000"
+                                    },
+                                    "authorizationCode": {
+                                        "type": "string",
+                                        "example": "AUTH_72btv547"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/transfer/initiate": {
+            "post": {
+                "tags": [
+                    "Transfer"
+                ],
+                "summary": "Initiate a bank transfer",
+                "description": "Send money to your customers.",
+                "operationId": "transferInitiate",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "accountNumber",
+                                    "bankCode",
+                                    "amountInKobo"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "The recipient's name according to their account registration",
+                                        "type": "string",
+                                        "example": "Tolu Robert"
+                                    },
+                                    "accountNumber": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "0000000000"
+                                    },
+                                    "bankCode": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "057"
+                                    },
+                                    "amountInKobo": {
+                                        "description": "Amount in kobo",
+                                        "type": "string",
+                                        "example": "1000"
+                                    },
+                                    "description": {
+                                        "description": "Reason from the transfer",
+                                        "type": "string",
+                                        "example": "payment for order 1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/transfer/finalize": {
+            "post": {
+                "tags": [
+                    "Transfer"
+                ],
+                "summary": "Finalize an initiated transfer",
+                "description": "Request only when transaction type gotten from initiate transfer value is 'initiate_transfer'",
+                "operationId": "transferFinalizeInitiate",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "reference",
+                                    "otp"
+                                ],
+                                "properties": {
+                                    "reference": {
+                                        "description": "The reference from initiate transfer",
+                                        "type": "string",
+                                        "example": "TRF_vsyqdmlzble3uii"
+                                    },
+                                    "otp": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "928783"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/transfer/create-recipient": {
+            "post": {
+                "tags": [
+                    "Transfer"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "createTransferRecipient",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "accountNumber",
+                                    "bankCode"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "The recipient's name according to their account registration",
+                                        "type": "string",
+                                        "example": "Tolu Robert"
+                                    },
+                                    "accountNumber": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "0000000000"
+                                    },
+                                    "bankCode": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "057"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/transfer/initiate-via-recipient": {
+            "post": {
+                "tags": [
+                    "Transfer"
+                ],
+                "summary": "Initiate a bank transfer via recipient code",
+                "description": "Send money to your customers.",
+                "operationId": "initiateTransferViaRecipientCode",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "recipientCode",
+                                    "amountInKobo"
+                                ],
+                                "properties": {
+                                    "recipientCode": {
+                                        "description": "Amount in kobo",
+                                        "type": "string",
+                                        "example": "1000"
+                                    },
+                                    "amountInKobo": {
+                                        "description": "Amount in kobo",
+                                        "type": "string",
+                                        "example": "1000"
+                                    },
+                                    "description": {
+                                        "description": "Reason from the transfer",
+                                        "type": "string",
+                                        "example": "payment for order 1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/transaction/verify/{reference}": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Verify transaction",
+                "description": "Verify transaction either direct debit initiation status, transfer, card tokenization, payment links",
+                "operationId": "directDebitVerify",
+                "parameters": [
+                    {
+                        "name": "reference",
+                        "in": "path",
+                        "description": "Unique reference from the initialization request",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "dfbzfotsrbv4n5s82t4mp5b5mfn51h"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/create-virtual-account": {
+            "post": {
+                "tags": [
+                    "Virtual Account"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "VirtualAccount",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "test@example.com"
+                                    },
+                                    "preferred_bank": {
+                                        "type": "string",
+                                        "example": "test-bank"
+                                    },
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "john"
+                                    },
+                                    "middle_name": {
+                                        "type": "string",
+                                        "example": "joe"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "doe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "08012345678"
+                                    },
+                                    "account_number": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "bvn": {
+                                        "type": "string",
+                                        "example": "12345678901"
+                                    },
+                                    "bank_code": {
+                                        "type": "string",
+                                        "example": "044"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success, Failure, or Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SuccessResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ValidationErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "card_tokenization.success": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Successful card tokenization",
+                "description": "Notifies when a card tokenization is successful.",
+                "operationId": "cardTokenizationSuccess",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "card_tokenization.success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reference": {
+                                                    "type": "string",
+                                                    "example": "ref"
+                                                },
+                                                "authorizationCode": {
+                                                    "type": "string",
+                                                    "example": "AUTH_gdutbv7fxk"
+                                                },
+                                                "reusable": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "expYear": {
+                                                    "type": "string",
+                                                    "example": "2030"
+                                                },
+                                                "expMonth": {
+                                                    "type": "string",
+                                                    "example": "12"
+                                                },
+                                                "last4": {
+                                                    "type": "string",
+                                                    "example": "4081"
+                                                },
+                                                "active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "payment_link.success": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Successful payment link",
+                "description": "Notifies when a payment link transaction is successful.",
+                "operationId": "paymentLinkSuccess",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "payment_link.success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reference": {
+                                                    "type": "string",
+                                                    "example": "ref"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "example": 5000
+                                                },
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "transfer.success": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Successful transfer",
+                "description": "Notifies when a transfer is successful.",
+                "operationId": "transferSuccess",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "transfer.success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reference": {
+                                                    "type": "string",
+                                                    "example": "ref"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "example": 5000
+                                                },
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "transfer.failed": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Failed transfer",
+                "description": "Notifies when a transfer fails.",
+                "operationId": "transferFailed",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "transfer.failed"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reference": {
+                                                    "type": "string",
+                                                    "example": "ref"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "example": 5000
+                                                },
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "transfer.reversed": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Reversed transfer",
+                "description": "Notifies when a transfer is reversed.",
+                "operationId": "transferReversed",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "transfer.reversed"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reference": {
+                                                    "type": "string",
+                                                    "example": "ref"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "example": 5000
+                                                },
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "direct_debit.success": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Successful direct debit",
+                "description": "Notifies when a direct debit is successful.",
+                "operationId": "directDebitSuccess",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "direct_debit.success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reference": {
+                                                    "type": "string",
+                                                    "example": "ref"
+                                                },
+                                                "authorizationCode": {
+                                                    "type": "string",
+                                                    "example": "AUTH_JV4T9Wawdj"
+                                                },
+                                                "reusable": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "expYear": {
+                                                    "type": "string",
+                                                    "example": "2034"
+                                                },
+                                                "expMonth": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "last4": {
+                                                    "type": "string",
+                                                    "example": "1234"
+                                                },
+                                                "active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "customer_identity.failed": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Failed customer identity verification",
+                "description": "Notifies when a customer identity verification fails.",
+                "operationId": "customerIdentityFailed",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "customer_identity.failed"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "reason": {
+                                                    "type": "string",
+                                                    "example": "Account number or BVN is incorrect"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "virtual_account.failed": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Failed virtual account creation",
+                "description": "Notifies when virtual account creation fails.",
+                "operationId": "virtualAccountFailed",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "virtual_account.failed"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "reason": {
+                                                    "type": "string",
+                                                    "example": "Virtual could not be created"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "virtual_account.success": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Successful virtual account creation",
+                "description": "Notifies when virtual account creation is successful.",
+                "operationId": "virtualAccountSuccess",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "virtual_account.success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "accountName": {
+                                                    "type": "string",
+                                                    "example": "PAYSTACK/John Doe"
+                                                },
+                                                "accountNumber": {
+                                                    "type": "string",
+                                                    "example": "1234567890"
+                                                },
+                                                "currency": {
+                                                    "type": "string",
+                                                    "example": "NGN"
+                                                },
+                                                "bankName": {
+                                                    "type": "string",
+                                                    "example": "Test Bank"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "virtual_account.credit": {
+            "post": {
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Virtual Account Credit Event",
+                "description": "Triggered when a virtual account receives a credit transaction.",
+                "operationId": "virtualAccountCredit",
+                "responses": {
+                    "200": {
+                        "description": "Webhook Event Delivered Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "virtual_account.credit"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "customer": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "customer@gmail.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "amountInKobo": {
+                                                    "type": "integer",
+                                                    "example": 10000
+                                                },
+                                                "sender": {
+                                                    "properties": {
+                                                        "accountNumber": {
+                                                            "type": "string",
+                                                            "example": "XXXXXX1234"
+                                                        },
+                                                        "accountName": {
+                                                            "type": "string",
+                                                            "example": "John"
+                                                        },
+                                                        "bankName": {
+                                                            "type": "string",
+                                                            "example": "Test Bank"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "customerAccountNumber": {
+                                                    "type": "string",
+                                                    "example": "1234567890"
+                                                },
+                                                "transactionRef": {
+                                                    "type": "string",
+                                                    "example": "trx-MOOdlfcJGfJCSDiJ"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SuccessResponse": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "200"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Request processed successfully"
+                    },
+                    "data": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "FailedResponse": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "300"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Failed to process request"
+                    },
+                    "data": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationErrorResponse": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "payloadValidationError"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Validation error"
+                    },
+                    "data": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UnauthorizedResponse": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "401"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Unauthorized access"
+                    },
+                    "data": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Settings",
+            "description": "Settings"
+        },
+        {
+            "name": "Card Tokenization",
+            "description": "Card Tokenization"
+        },
+        {
+            "name": "Transactions",
+            "description": "Transactions"
+        },
+        {
+            "name": "Direct Debit",
+            "description": "Direct Debit"
+        },
+        {
+            "name": "GSI: Global Standing Instruction",
+            "description": "GSI: Global Standing Instruction"
+        },
+        {
+            "name": "Payment Link",
+            "description": "Payment Link"
+        },
+        {
+            "name": "Transfer",
+            "description": "Transfer"
+        },
+        {
+            "name": "Virtual Account",
+            "description": "Virtual Account"
+        },
+        {
+            "name": "Webhooks",
+            "description": "Webhooks"
+        }
+    ]
+}
