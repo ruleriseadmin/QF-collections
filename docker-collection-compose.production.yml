@@ -1,16 +1,24 @@
 services:
-  collection_app:
-    image: ghcr.io/ruleriseadmin/collection-service-backend:main
+  collection_service_app:
+    image: ghcr.io/ruleriseadmin/qf-collection:main
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - "./.env:/var/www/html/collection_app/.env"
-    networks:
-      - collection_sail
+      - "./.env:/var/www/html/collection_service_app/.env"
     depends_on:
-      - collection_database
-      - collection_redis
+      collection_database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:90/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - sail
+
   collection_database:
     image: "mysql/mysql-server:8.0"
     restart: always
@@ -70,26 +78,16 @@ services:
       - 90:80
       - 444:443
     volumes:
-      # - /data/certbot/www/:/var/www/certbot/
-      # - /data/certbot/letsencrypt/:/etc/letsencrypt/
+
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./www:/var/www/html # Needed for ACME challenge
       - ./server/default-production.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - collection_app
+      - collection_service_app
 
     networks:
       - collection_sail
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
-  # certbot:
-  #   image: certbot/certbot:v2.6.0
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /data/certbot/www/:/var/www/certbot/
-  #     - /data/certbot/letsencrypt/:/etc/letsencrypt/
-  #   networks:
-  #     - collection_sail
-  #   depends_on:
-  #     - collection_nginx
-  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 networks:
   collection_sail:
     driver: bridge

@@ -3,8 +3,10 @@
 namespace App\Traits;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 trait TransactionResourceTrait
+
 {
     private function directDebitResponse($meta): array
     {
@@ -22,7 +24,9 @@ trait TransactionResourceTrait
 
     private function cardTokenizationResponse($meta)
     {
-        $data = $meta['data'];
+        Log::info('meta', $meta );
+        $data = $meta['data'] ?? $meta;
+        Log::info('data', $data);
 
         $authorization = $data['authorization'];
 

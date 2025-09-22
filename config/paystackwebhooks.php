@@ -26,7 +26,7 @@ return [
 
     'quickcred_secret' => env('PAYSTACK_QUICKCRED_SECRET_KEY'),
 
-    'quickfund_secret' => env('PAYSTACK_QUICKFUND_SECRET_KEY'),
+    'quickfund_secret' => env('PAYSTACK_QUICKFUND_SECRET_KEY_TEST'),
 
     /*
    |--------------------------------------------------------------------------
