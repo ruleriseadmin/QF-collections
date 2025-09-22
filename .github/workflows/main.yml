@@ -82,7 +82,7 @@ jobs:
           username: superuser
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            mkdir -p /var/www/html/collection_service_app
+            sudo mkdir -p /var/www/html/collection_service_app
 
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
