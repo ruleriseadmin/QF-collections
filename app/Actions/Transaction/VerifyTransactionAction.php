@@ -8,6 +8,7 @@ use App\Models\Gateway\AccessGateway;
 use App\Service\PayStack\PaystackService;
 use App\Service\PayStack\PayStackTransferService;
 use KodeDict\PHPUtil\PhpUtil;
+use Illuminate\Support\Facades\Log;
 
 class VerifyTransactionAction
 {
@@ -16,7 +17,16 @@ class VerifyTransactionAction
         $transaction = $accessGateway->transactions()->where('reference', $reference)
             ->orWhere('provider_reference', $reference)->first();
 
+
         if ( $transaction && ! $directViaPayStack ){
+            Log::info('Transaction already exists and directViaPayStack is false. Returning existing transaction.', [
+                'transaction_id' => $transaction->id,
+                'reference' => $transaction->reference,
+                'provider_reference' => $transaction->provider_reference,
+            ]);
+            Log::info('Transaction Meta', [
+                'meta' => new TransactionResource($transaction)
+            ]);
             return [
                 'status' => true,
                 'metadata' => new TransactionResource($transaction),
@@ -25,6 +35,7 @@ class VerifyTransactionAction
         }
 
         if ( $transaction && $directViaPayStack ){
+            
             return $this->directViaPayStackByTransaction($transaction);
         }
 

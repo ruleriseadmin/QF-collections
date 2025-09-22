@@ -10,6 +10,6 @@ return [
     ],
     'quickfund' => [
         'base_url' => env('PAYSTACK_QUICKFUND_BASE_URL', 'https://api.paystack.co'),
-        'secret_key' => env('PAYSTACK_QUICKFUND_SECRET_KEY'),
+        'secret_key' => env('PAYSTACK_QUICKFUND_SECRET_KEY_TEST'),
     ],
 ];
