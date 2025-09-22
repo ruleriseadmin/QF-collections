@@ -55,17 +55,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.3
 
-# -------------------------------------------------
-# User
-# -------------------------------------------------
-RUN groupadd --force -g $WWWGROUP sail \
-    && useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
-# -------------------------------------------------
-# Config
-# -------------------------------------------------
+
+RUN groupadd --force -g $WWWGROUP sail2
+RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1338 sail2
+
 COPY ./server/docker/start-container /usr/local/bin/start-container
-COPY ./server/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./server/docker/supervisord2.conf /etc/supervisor/conf.d/supervisord2.conf
 COPY ./server/docker/php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
 
